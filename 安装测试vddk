@@ -1,0 +1,33 @@
+安装测试vddk
+官网：
+账号：kongqianyaun@rorke.com.cn密码：P@ssw0rd
+安装包：VMware-vix-disklib-8.0.0-20521017.x86_64.tar.gz
+解压缩：tar -xzvf VMware-vix-disklib-8.0.0-20521017.x86_64.tar.gz
+mv vmware-vix-disklib-distrib/ /usr/lib/vmware-vix-disklib/（注意：移动后的文件夹名称不一样）
+echo "/usr/lib/vmware-vix-disklib/lib64" > /etc/ld.so.conf.d/vmware-vix-disklib.conf
+ldconfig
+
+代码：
+package main
+
+/*
+#cgo CFLAGS: -I/usr/lib/vmware-vix-disklib/include
+#cgo LDFLAGS: -L/usr/lib/vmware-vix-disklib/lib64 -lvixDiskLib
+#include <vixDiskLib.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+void initVDDK() {
+    VixError err = VixDiskLib_Init(1, 0, NULL, NULL, NULL, NULL);
+    if (err != VIX_OK) {
+        printf("VixDiskLib_Init failed\n");
+    } else {
+        printf("VixDiskLib_Init succeeded\n");
+    }
+}
+*/
+import "C"
+
+func main() {
+    C.initVDDK()
+}
